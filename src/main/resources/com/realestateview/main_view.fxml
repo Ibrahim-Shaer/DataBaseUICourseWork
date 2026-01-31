@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.controllers.MainController" prefHeight="600.0" prefWidth="900.0">
+
+    <left>
+        <VBox spacing="10" style="-fx-background-color: #2c3e50;" prefWidth="200">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+
+            <Label text="ИЗБЕРЕТЕ ТАБЛИЦА" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+
+            <Button text="Имоти (Properties)" onAction="#handleShowProperties" maxWidth="Infinity"/>
+            <Button text="Хора (Person)" onAction="#handleShowPeople" maxWidth="Infinity"/>
+            <Button text="Сделки (Deals)" onAction="#handleShowDeals" maxWidth="Infinity"/>
+            <Button text="Листинги (Listings)" onAction="#handleListings" maxWidth="Infinity"/>
+
+            <Separator/>
+            <Label text="ДЕЙСТВИЯ" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+
+            <Button text="Добави в избраната" onAction="#handleAddDynamic" maxWidth="Infinity"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+
+            <Button text="Изтрий от избраната" onAction="#handleDelete" maxWidth="Infinity"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+
+            <Button text="Заявки" onAction="#handleComplexQueries" maxWidth="Infinity"/>
+        </VBox>
+    </left>
+
+    <center>
+        <TableView fx:id="tableView"/>
+    </center>
+
+
+</BorderPane>

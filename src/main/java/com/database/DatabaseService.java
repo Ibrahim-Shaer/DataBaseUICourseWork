@@ -15,7 +15,7 @@ public class DatabaseService {
     public void loadData(TableView<ObservableList<String>> tableView, String query) {
         ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
 
-        // Важно: Почистваме всичко преди нова заявка
+
         tableView.getItems().clear();
         tableView.getColumns().clear();
 
@@ -23,17 +23,17 @@ public class DatabaseService {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
-            // 1. Динамично създаване на колони
+            // 1. Dynamicly create columns
             int columnCount = rs.getMetaData().getColumnCount();
             for (int i = 0; i < columnCount; i++) {
                 final int j = i;
 
-                // Указваме типовете <S, T> -> <Ред, Тип на клетка>
+
                 TableColumn<ObservableList<String>, String> col =
                         new TableColumn<>(rs.getMetaData().getColumnName(i + 1));
 
                 col.setCellValueFactory(param -> {
-                    // param.getValue() директно връща ObservableList<String>
+
                     ObservableList<String> row = param.getValue();
                     String value = (row != null && j < row.size()) ? row.get(j) : "";
                     return new SimpleStringProperty(value);
@@ -42,7 +42,7 @@ public class DatabaseService {
                 tableView.getColumns().add(col);
             }
 
-            // 2. Добавяне на данните
+            // 2. Add the data
             while (rs.next()) {
                 ObservableList<String> row = FXCollections.observableArrayList();
                 for (int i = 1; i <= columnCount; i++) {
@@ -73,20 +73,20 @@ public class DatabaseService {
 
     public void insertDynamic(String tableName, List<String> values) {
         try (Connection conn = DataBaseConnector.getConnection()) {
-            // 1. Вземаме метаданните, за да знаем колко колони има
+
             String selectSql = "SELECT * FROM " + tableName + " WHERE 1=0";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(selectSql);
             int columnCount = rs.getMetaData().getColumnCount();
 
-            // 2. Генерираме SQL: INSERT INTO Table VALUES (?, ?, ?)
+
             StringBuilder sql = new StringBuilder("INSERT INTO " + tableName + " VALUES (");
             for (int i = 0; i < columnCount; i++) {
                 sql.append(i == 0 ? "?" : ", ?");
             }
             sql.append(")");
 
-            // 3. Пълним PreparedStatement
+
             PreparedStatement pstmt = conn.prepareStatement(sql.toString());
             for (int i = 0; i < values.size(); i++) {
                 pstmt.setString(i + 1, values.get(i));
@@ -100,7 +100,7 @@ public class DatabaseService {
     }
 
     public int getNextId(String tableName, String idColumnName) {
-        // Взимаме най-голямото ID. Ако няма записи, връщаме 0.
+
         String sql = "SELECT MAX(" + idColumnName + ") FROM " + tableName;
         try (Connection conn = com.database.DataBaseConnector.getConnection();
              Statement stmt = conn.createStatement();
@@ -113,6 +113,6 @@ public class DatabaseService {
         } catch (SQLException e) {
             System.err.println("Не мога да генерирам ID: " + e.getMessage());
         }
-        return 1; // По подразбиране почваме от 1, ако таблицата е празна
+        return 1;
     }
 }

@@ -29,8 +29,8 @@ public class MainController {
 
     @FXML
     private void handleShowDeals() {
-        currentTable = "Successful_Deals"; // Име на таблицата в Oracle
-        currentIdColumn = "DEAL_ID";       // Име на PK колоната
+        currentTable = "Successful_Deals";
+        currentIdColumn = "DEAL_ID";
         dbService.loadData(tableView, "SELECT * FROM Successful_Deals");
     }
     @FXML
@@ -58,23 +58,23 @@ public class MainController {
     private void handleDelete() {
         ObservableList<String> selectedRow = tableView.getSelectionModel().getSelectedItem();
         if (selectedRow != null) {
-            // Винаги взимаме първата колона като ID
+
             String idValue = selectedRow.get(0);
             dbService.deleteRecord(currentTable, currentIdColumn, idValue);
 
-            // Презареждаме текущата таблица
+
             dbService.loadData(tableView, "SELECT * FROM " + currentTable);
         }
     }
 
     @FXML
     private void handleAddDynamic() {
-        // Вземаме колоните от таблицата, която се вижда в момента
+        // Taking the columns from the current table
         ObservableList<TableColumn<ObservableList<String>, ?>> columns = tableView.getColumns();
 
         if (columns.isEmpty()) return;
 
-        // Създаваме диалогов прозорец
+        // Create a dialog window
         Dialog<List<String>> dialog = new Dialog<>();
         dialog.setTitle("Добавяне в " + currentTable);
         dialog.setHeaderText("Въведете данни за новия запис:");
@@ -91,7 +91,7 @@ public class MainController {
 
         String idColumnName = columns.get(0).getText();
         int nextId = dbService.getNextId(currentTable, idColumnName);
-        // За всяка колона в TableView създаваме етикет и поле (skip-ваме първата, ако е ID/Auto-increment)
+        //For every column we create a new field(auto increment ID)
         for (int i = 0; i < columns.size(); i++) {
             String columnName = columns.get(i).getText();
             TextField field = new TextField();
@@ -110,7 +110,8 @@ public class MainController {
 
         dialog.getDialogPane().setContent(grid);
 
-        // Превръщаме резултата от диалога в списък от стрингове
+
+        //Convert result to list
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == addButtonType) {
                 return fields.stream().map(TextField::getText).collect(Collectors.toList());
@@ -119,7 +120,7 @@ public class MainController {
         });
 
         dialog.showAndWait().ifPresent(result -> {
-            // Пращаме към базата и обновяваме
+            // Send to data base
             dbService.insertDynamic(currentTable, result);
             dbService.loadData(tableView, "SELECT * FROM " + currentTable);
         });
@@ -177,8 +178,8 @@ public class MainController {
     }
 
     private void executeComplexQuery(String sql) {
-        // Използваме съществуващия loadData, за да покажем резултата в таблицата
+        // Use loadData to show result of handleComplexQueries
         dbService.loadData(tableView, sql);
-        currentTable = "QUERY_RESULT"; // Маркираме, че не сме в стандартна таблица
+        currentTable = "QUERY_RESULT";
     }
 }

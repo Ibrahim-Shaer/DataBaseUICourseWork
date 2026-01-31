@@ -9,7 +9,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // Зареждане на FXML файла
+
         Parent root = FXMLLoader.load(getClass().getResource("/com/realestateview/main_view.fxml"));
 
         primaryStage.setTitle("Real Estate System - FXML Mode");

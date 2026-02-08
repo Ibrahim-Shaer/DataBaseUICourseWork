@@ -35,14 +35,14 @@ CREATE TABLE Agents (
 
 CREATE TABLE Property_Owners (
     person_id INT PRIMARY KEY REFERENCES Person(person_id),
-    property_id INT -- Ще се свърже по-късно
+    property_id INT
 );
 
 CREATE TABLE Properties (
     property_id INT PRIMARY KEY,
     price NUMBER(15, 2),
     square_meters NUMBER(10, 2),
-    location location_type
+    location VARCHAR2(100)
 );
 
 CREATE TABLE Apartment (

@@ -154,3 +154,13 @@ INSERT INTO Listings VALUES (1001, 501, 'Sale', 'Sunny apartment in the heart of
 INSERT INTO Successful_Deals VALUES (1, 501, 115000.00);
 
 
+INSERT INTO Property_Owners (person_id, property_id) VALUES (101, 501);
+
+
+INSERT INTO Client_Preferences (person_id, preference_id) VALUES (103, 1);
+
+
+INSERT INTO Visits (visit_id, client_id, agent_id, property_id, date_time, notes)
+VALUES (201, 103, 102, 501, CURRENT_TIMESTAMP, 'Хареса имота');
+
+
